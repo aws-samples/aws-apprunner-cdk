@@ -70,8 +70,9 @@ Leverage AWS services AWS App Runner, Amazon RDS, Amazon Elastic Container Regis
 
 **Note:** This workshop will create chargeable resources in your account. When finished, please make sure you clean up resources as instructed at the end.
 
-1. Set up DockerHub Credentials in Secrets Manager for Docker Login credentials. Please provide your personal docker credentials. Note this step demonstrates the use of Docker Hub and provides an example on how to leverage the private registries to be included in the pipeline using Secrets Manager. 
+1. Set up DockerHub Credentials in Secrets Manager for Docker Login credentials. Please provide your personal docker username (not email) and password. Note this step demonstrates the use of Docker Hub and provides an example on how to leverage the private registries to be included in the pipeline using Secrets Manager. 
     ```bash
+    cd ~/environment/aws-apprunner-cdk
     aws secretsmanager create-secret \
         --name dockerhub_credentials \
         --description "DockerHub Credentials" \
@@ -85,44 +86,56 @@ Leverage AWS services AWS App Runner, Amazon RDS, Amazon Elastic Container Regis
         cd ~/environment/aws-apprunner-cdk/cdk
         cdk deploy
         ```
-    - When asked whether you want to proceed with the actions, enter `yes`.
+    - When asked whether you want to proceed with the actions, enter `y`.
         ![CDK Deploy](assets/12-c9-cdk-deploy.png)
     - Wait for AWS CDK to complete the deployment before proceeding. It will take few minutes to complete “cdk deploy”. Pipeline will fail since the code is not available in code commit repo.
 
 3. Deploy Step Phase 2: Enable CI/CD Pipeline and deploy infrastructure and application.
     - Commit the code and set the origin to the code commit repo that was created.
         ```bash
+        cd ~/environment/aws-apprunner-cdk
         git remote rename origin upstream
         git remote add origin "provide codecommit repo HTTPS URL created in above step"
         git push origin main
         ```
-    - Code Commit changes will invoke the Code Pipeline. It will take 15 to 20 minutes to complete the deployment. 
-    - Initial deployment will take longer since this includes setting up the infrastructure that includes Networking, RDS and other core components.
+    - Code Commit changes will invoke the Code Pipeline. It will take approximately 15 to 20 minutes to complete the deployment. 
+    - Initial deployment will take longer since this includes building the container image for the application and setting up the infrastructure that includes Networking, RDS and other dependent components.
+    - Explore the deployment progress on the CloudFormation console.
 
 4. Validate the Deployment.
     - Once the deploy is complete, you can review the repo in App Runner service using the AWS console. 
     - View the App Runner service using the [AWS App Runner console](https://console.aws.amazon.com/apprunner/)
 
-5. Validate the CI/CD Pipeline.
+5. Review the deployed stack.
+    - View the RDS database using the [Amazon RDS console](https://console.aws.amazon.com/rds).
+    - View the ECR repo using the [Amazon ECR console](https://console.aws.amazon.com/ecr).
+    - View the CodeCommit repo using the [AWS CodeCommit console](https://console.aws.amazon.com/codecommit).
+    - View the CodeBuild project using the [AWS CodeBuild console](https://console.aws.amazon.com/codebuild).
+    - View the CodePipeline using the [AWS CodePipeline console](https://console.aws.amazon.com/codepipeline).
+
+6. Validate the CI/CD Pipeline.
     - Make a source code change in the petclinic application. Make the change to messages.properties under `petclinic/src/main/resources/messages/messages.properties`. Change the welcome value to `Welcome to CI/CD using AWS CDK`.
     - Commit the change and push the change to the code commit repo.
         ```bash
-        git commit -am `updated the title`
+        cd ~/environment/aws-apprunner-cdk
+        git commit -am "updated the title"
         git push origin main
         ```
-    - Review that the commit started the code pipeline build. It will take 5 t0 10 minutes to deploy the change.
-    - Once the deploy is complete, you can refresh the application home page.
+    - Review that the commit started the code pipeline build. It will take approximately 10 minutes to deploy the change which includes building a new image and deploying the latest version to AWS AppRunner.
+    - Once the deploy is complete, you can refresh the application home page and you should see the change reflected on the home page.
 
-6. Cleaning Up.
+7. Cleaning Up.
     - Delete the AWS CDK stack.
         ```
         cd ~/environment/aws-apprunner-cdk/cdk
         cdk destroy
         ```
-    - When asked whether you want to proceed with the actions, enter `yes`. Wait for AWS CDK to complete the destroy.
+    - When asked whether you want to proceed with the actions, enter `y`. Wait for AWS CDK to complete the destroy.
+    - Delete the AWS CloudFormation `petclinic-deploy-*` stack from the AWS CloudFormation Console.
     - Delete the images in the AWS ECR `petclinic` repo.
-    - Delete the AWS CloudFormation `petclinic-*` stacks from the AWS CloudFormation Console.
-    - Delete the AWS Cloud9 environment.
+    - Delete the AWS CloudFormation `petclinic-build-*` stack from the AWS CloudFormation Console.
+    - Delete the AWS Cloud9 `workshop-environment` environment including the `workshop-admin` IAM role.
+    - Delete the `dockerhub_credentials` from AWS Secrets Manager.
 
 ## Security
 

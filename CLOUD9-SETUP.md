@@ -4,7 +4,7 @@ Ensure you have access to an AWS account, and a set of credentials with *Adminis
 
 ### Create an AWS Cloud9 environment
 
-Log into the AWS Management Console and search for Cloud9 services in the search bar. Click Cloud9 and create an AWS Cloud9 environment in the `us-east-2` region based on Amazon Linux 2. You can select the instance type as t2.micro.
+Log into the AWS Management Console and search for Cloud9 services in the search bar. Click Cloud9 and create an AWS Cloud9 environment in the `us-east-2` region based on Amazon Linux 2. You can provide a environment name of `workshop-environment` for name and select the instance type as **t2.micro** or **t3.micro**.
 ![Cloud9 Create](assets/1-c9-create.png)
 
 ### Configure the AWS Cloud9 environment
