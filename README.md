@@ -98,7 +98,7 @@ Leverage AWS services AWS App Runner, Amazon RDS, Amazon Elastic Container Regis
         git remote add origin "provide codecommit repo HTTPS URL created in above step"
         git push origin main
         ```
-    - Code Commit changes will invoke the Code Pipeline. It will take approximately 15 to 20 minutes to complete the deployment. 
+    - Code Commit changes will invoke the Code Pipeline. It will take approximately 20 to 30 minutes to complete the deployment.
     - Initial deployment will take longer since this includes building the container image for the application and setting up the infrastructure that includes Networking, RDS and other dependent components.
     - Explore the deployment progress on the CloudFormation console.
 
