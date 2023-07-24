@@ -11,3 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial Release
 
+## [1.0.1] - 2022-09-22
+
+- Upgrade CDK version to 2.43.1.
+
+## [1.0.2] - 2023-07-25
+
+- Upgrade CDK version to 2.88.0 and dependency fixes.
+- Deprecated code changes.
