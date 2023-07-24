@@ -27,7 +27,7 @@ export class CdkInfraStack extends Stack {
     /****************************** VPC  ************************************/
     /************************************************************************/
     const vpc = new ec2.Vpc(this, `${this.stackName}-vpc`, {
-      cidr: "10.0.0.0/26",
+      ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/26'),
       maxAzs: 2,
       subnetConfiguration: [
         {
