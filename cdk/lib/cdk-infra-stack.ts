@@ -19,8 +19,8 @@ export class CdkInfraStack extends Stack {
       this.appName = props.appName;
     }else{
       const appNameCtx = this.node.tryGetContext("app-name");
-      //Generates Random ID in case context doesn't have app-name
-      this.appName =  appNameCtx ? appNameCtx : "infra-app-name" + (Math.random() + 1).toString(36).substring(7);
+      //Generates secure ID in case context doesn't have app-name
+      this.appName =  appNameCtx ? appNameCtx : "infra-app-name-" + cdk.Names.uniqueId(this).toLowerCase().substring(0, 8);
     }
 
     /************************************************************************/
@@ -65,8 +65,9 @@ export class CdkInfraStack extends Stack {
           ec2.InstanceClass.BURSTABLE3,
           ec2.InstanceSize.SMALL
         ),
-        credentials: rds.Credentials.fromGeneratedSecret(this.appName, {
+        credentials: rds.Credentials.fromGeneratedSecret("mysql-admin", {
           secretName: `rds/dev/${this.appName}/mysql`,
+          excludeCharacters: " %+~`#$&*()|[]{}:;<>?!'/@\"\\=",
         }),
         vpc,
         vpcSubnets: {
