@@ -34,7 +34,7 @@ test("CDK Infra Stage", () => {
         AutoMinorVersionUpgrade: false,
         BackupRetentionPeriod: 5,
         Engine: "mysql",
-        EngineVersion: "5.7",
+        EngineVersion: "5.7.44",
         MultiAZ: true,
         PubliclyAccessible: false,
         StorageEncrypted: true,
