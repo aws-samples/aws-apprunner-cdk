@@ -59,13 +59,13 @@ export class CdkInfraStack extends Stack {
       `${this.stackName}-mysql-rds`,
       {
         engine: rds.DatabaseInstanceEngine.mysql({
-          version: rds.MysqlEngineVersion.VER_5_7,
+          version: rds.MysqlEngineVersion.VER_5_7_44,
         }),
         instanceType: ec2.InstanceType.of(
           ec2.InstanceClass.BURSTABLE3,
           ec2.InstanceSize.SMALL
         ),
-        credentials: rds.Credentials.fromGeneratedSecret("mysql-admin", {
+        credentials: rds.Credentials.fromGeneratedSecret("mysql_admin", {
           secretName: `rds/dev/${this.appName}/mysql`,
           excludeCharacters: " %+~`#$&*()|[]{}:;<>?!'/@\"\\=",
         }),

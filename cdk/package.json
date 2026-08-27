@@ -24,5 +24,8 @@
     "cdk-nag": "^2.14.6",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.16"
+  },
+  "allowScripts": {
+    "fsevents@2.3.2": true
   }
 }
